@@ -21,9 +21,6 @@ namespace HowToBBQ.Win10.Views
     public sealed partial class BBQRecipePage : Page
     {
 
-        public MediaCapture captureManager;
-        public bool isPreviewing = false;
-        public bool isAutoFocus = false;
         private WriteableBitmap bitmap;
 
 
@@ -34,21 +31,6 @@ namespace HowToBBQ.Win10.Views
             DataContext = new BBQRecipeViewModel();
         }
 
-        private async void Loadphoto(string filename)
-        {
-            //load saved image
-            StorageFolder pictureLibrary = KnownFolders.SavedPictures;
-
-            StorageFile savedPicture = await pictureLibrary.GetFileAsync(filename);
-            ImageProperties imgProp = await savedPicture.Properties.GetImagePropertiesAsync();
-            var savedPictureStream = await savedPicture.OpenAsync(FileAccessMode.Read);
-
-            //set image properties and show the taken photo
-            bitmap = new WriteableBitmap((int)imgProp.Width, (int)imgProp.Height);
-            await bitmap.SetSourceAsync(savedPictureStream);
-            BBQImage.Source = bitmap;
-            BBQImage.Visibility = Visibility.Visible;
-        }
 
         private async void ButtonFilePick_Click(object sender, RoutedEventArgs e)
         {
@@ -64,8 +46,17 @@ namespace HowToBBQ.Win10.Views
 
             if (file != null)
             {
-                // Application now has read/write access to the picked file
-                Loadphoto(file.Path);
+
+                ImageProperties imgProp = await file.Properties.GetImagePropertiesAsync();
+                var savedPictureStream = await file.OpenAsync(FileAccessMode.Read);
+
+                //set image properties and show the taken photo
+                bitmap = new WriteableBitmap((int)imgProp.Width, (int)imgProp.Height);
+                await bitmap.SetSourceAsync(savedPictureStream);
+                BBQImage.Source = bitmap;
+                BBQImage.Visibility = Visibility.Visible;
+
+                (this.DataContext as BBQRecipeViewModel).imageSource = file.Path;
             }
         }
 
@@ -92,6 +83,8 @@ namespace HowToBBQ.Win10.Views
                 savePicker.SuggestedFileName = "New picture";
 
                 StorageFile savedFile = await savePicker.PickSaveFileAsync();
+
+                (this.DataContext as BBQRecipeViewModel).imageSource = savedFile.Path;
 
                 if (savedFile != null)
                 {
