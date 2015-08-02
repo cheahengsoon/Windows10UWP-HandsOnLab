@@ -60,6 +60,28 @@
                 <RelativePanel>
                     <StackPanel x:Name="ImageStackPanel"  Orientation="Vertical" HorizontalAlignment="Left">
                         <Image x:Name="BBQImage" Source="{Binding ImageSource, Mode=TwoWay}" Canvas.ZIndex="-3" Height="593"  Stretch="UniformToFill" />
+                        <StackPanel Margin="0,20,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Margin="10" x:Name="ButtonFilePick" Content="Select Image" FontSize="32" Click="ButtonFilePick_Click">
+                                <Button.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FFDC9743" Offset="0.171"/>
+                                        <GradientStop Color="#FF0A0A0A"/>
+                                        <GradientStop Color="#FF0A0A0A" Offset="0.98"/>
+                                        <GradientStop Color="#FFDC9743" Offset="0.949"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                            <Button Margin="10" x:Name="ButtonCamera" Content="Camera" FontSize="32" Click="ButtonCamera_Click">
+                                <Button.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF4293CE" Offset="0.171"/>
+                                        <GradientStop Color="#FF0A0A0A"/>
+                                        <GradientStop Color="#FF0A0A0A" Offset="0.98"/>
+                                        <GradientStop Color="#FF4293CE" Offset="0.949"/>
+                                    </LinearGradientBrush>
+                                </Button.Background>
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
                     <StackPanel x:Name="DetailstackPanel" Orientation="Vertical" HorizontalAlignment="Left">
                         <StackPanel Margin="0,20,20,10">
